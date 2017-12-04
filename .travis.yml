@@ -13,7 +13,7 @@ addons:
     sources:
       - google-chrome
     packages:
-      - google-chrome-stable
+      - google-chrome-stable fluxbox
 
 services:
   - docker
@@ -34,11 +34,12 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
+  - fluxbox >/dev/null 2>&1 &
   - docker-compose up --build -d
 
 script:
   - docker-compose run users-service python manage.py cov
-  - testcafe chrome,firefox e2e/index.test.js
+  - testcafe chrome,firefox,ie e2e/index.test.js
 
 after_script:
   - docker-compose down
