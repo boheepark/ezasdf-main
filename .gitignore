@@ -1,2 +1,5 @@
 # jetbeans
 .idea/
+
+# node
+node_modules/
