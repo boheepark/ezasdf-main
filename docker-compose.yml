@@ -3,7 +3,8 @@ version: '2.1'
 services:
   users-db:
     container_name: users-db
-    build: https://github.com/boheepark/ezasdf-users.git#master:project/db
+    build:
+      context: ../ezasdf-users/project/db
     ports:
       - 5435:5432 # expose ports - HOST:CONTAINER
     environment:
@@ -14,14 +15,15 @@ services:
 
   users-service:
     container_name: users-service
-    build: https://github.com/boheepark/ezasdf-users.git
+    build:
+      context: ../ezasdf-users
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-      - SECRET_KEY=asdf
+      - SECRET_KEY=secret
     depends_on:
       users-db:
         condition: service_healthy
@@ -31,7 +33,7 @@ services:
   web-service:
     container_name: web-service
     build:
-      context: https://github.com/boheepark/ezasdf-client.git
+      context: ../ezasdf-client
       args:
         - NODE_ENV=development
         - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}

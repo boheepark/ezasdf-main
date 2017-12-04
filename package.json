@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/boheepark/ezasdf-main#readme",
   "dependencies": {
+    "randomstring": "^1.1.5",
     "testcafe": "^0.18.5"
   }
 }
