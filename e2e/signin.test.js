@@ -13,7 +13,7 @@ fixture('/signin').page(`${TEST_URL}/signin`);
 test(`should display the sign in form`, async (t) => {
     await t
         .navigateTo(`${TEST_URL}/signin`)
-        .expect(Selector('H1').withText('Signin').exists).ok()
+        .expect(Selector('H1').withText('Sign In').exists).ok()
         .expect(Selector('form').exists).ok()
 });
 
@@ -34,7 +34,7 @@ test(`should allow a user to sign in`, async (t) => {
     // sign a user in
     await t
         .navigateTo(`${TEST_URL}/signin`)
-        .typeText('input[name="email"]', email)
+        .typeText('input[name="username"]', username)
         .typeText('input[name="password"]', 'password')
         .click(Selector('input[type="submit"]'))
 
