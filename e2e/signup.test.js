@@ -26,7 +26,7 @@ test(`should allow a user to sign up`, async (t) => {
         .typeText('input[name="username"]', username)
         .typeText('input[name="email"]', email)
         .typeText('input[name="password"]', 'password')
-        .click(Selector('input[type="submit"]'))
+        .click(Selector('input[type="submit"]'));
 
     // assert user is redirected to '/'
     // assert '/' is displayed properly

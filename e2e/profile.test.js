@@ -17,7 +17,7 @@ test(`should display the page if user is not signed in`, async (t) => {
         .expect(Selector('a').withText('Profile').exists).notOk()
         .expect(Selector('a').withText('Sign Out').exists).notOk()
         .expect(Selector('a').withText('Sign Up').exists).ok()
-        .expect(Selector('a').withText('Sign In').exists).ok()
+        .expect(Selector('a').withText('Sign In').exists).ok();
 });
 
 test(`should display user info if user is logged in`, async (t) => {
@@ -28,7 +28,7 @@ test(`should display user info if user is logged in`, async (t) => {
         .typeText('input[name="username"]', username)
         .typeText('input[name="email"]', email)
         .typeText('input[name="password"]', 'password')
-        .click(Selector('input[type="submit"]'))
+        .click(Selector('input[type="submit"]'));
 
     // assert '/status' is displayed properly
     await t
@@ -41,6 +41,6 @@ test(`should display user info if user is logged in`, async (t) => {
         .expect(Selector('a').withText('Profile').exists).ok()
         .expect(Selector('a').withText('Sign Out').exists).ok()
         .expect(Selector('a').withText('Sign Up').exists).notOk()
-        .expect(Selector('a').withText('Sign In').exists).notOk()
+        .expect(Selector('a').withText('Sign In').exists).notOk();
 
 });
