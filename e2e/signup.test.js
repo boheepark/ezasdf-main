@@ -14,7 +14,7 @@ fixture('/signup').page(`${TEST_URL}/signup`);
 test(`should display the signup form`, async (t) => {
     await t
         .navigateTo(`${TEST_URL}/signup`)
-        .expect(Selector('H1').withText('Sign Up').exists).ok()
+        .expect(Selector('H1').withText('Signup').exists).ok()
         .expect(Selector('form').exists).ok()
 });
 

@@ -20,7 +20,7 @@ test(`should display the page if user is not signed in`, async (t) => {
         .expect(Selector('a').withText('Sign In').exists).ok();
 });
 
-test(`should display user info if user is logged in`, async (t) => {
+test(`should display user info if user is signed in`, async (t) => {
 
     // signup user
     await t
@@ -30,7 +30,7 @@ test(`should display user info if user is logged in`, async (t) => {
         .typeText('input[name="password"]', 'password')
         .click(Selector('input[type="submit"]'));
 
-    // assert '/status' is displayed properly
+    // assert '/profile' is displayed properly
     await t
         .navigateTo(`${TEST_URL}/profile`)
         .expect(Selector('li > strong').withText('User ID:').exists).ok()

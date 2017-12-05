@@ -39,7 +39,7 @@ before_script:
 
 script:
   - docker-compose run users-service python manage.py cov
-  - testcafe chrome,firefox e2e/index.test.js
+  - testcafe chrome e2e/index.test.js
 
 after_script:
   - docker-compose down
