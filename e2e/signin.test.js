@@ -1,9 +1,10 @@
-import { Selector } from 'testcafe';
+import {Selector} from 'testcafe';
 
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
 const email = `${username}@test.com`;
+const password = 'greaterthanten';
 
 const TEST_URL = process.env.TEST_URL;
 
@@ -14,7 +15,17 @@ test(`should display the sign in form`, async (t) => {
     await t
         .navigateTo(`${TEST_URL}/signin`)
         .expect(Selector('H1').withText('Signin').exists).ok()
-        .expect(Selector('form').exists).ok();
+        .expect(Selector('form').exists).ok()
+        .expect(Selector('input[name="email"]').exists).ok()
+        .expect(Selector('input[name="password"]').exists).ok()
+        .expect(Selector('input[disabled]').exists).ok()
+        .expect(Selector('.validation-list').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(0).withText(
+            'Email must be greater than 5 characters.').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(1).withText(
+            'Email must be a valid email address.').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(2).withText(
+            'Password must be greater than 10 characters.').exists).ok()
 });
 
 test(`should allow a user to sign in`, async (t) => {
@@ -24,7 +35,7 @@ test(`should allow a user to sign in`, async (t) => {
         .navigateTo(`${TEST_URL}/signup`)
         .typeText('input[name="username"]', username)
         .typeText('input[name="email"]', email)
-        .typeText('input[name="password"]', 'password')
+        .typeText('input[name="password"]', password)
         .click(Selector('input[type="submit"]'));
 
     // sign a user out
@@ -34,8 +45,8 @@ test(`should allow a user to sign in`, async (t) => {
     // sign a user in
     await t
         .navigateTo(`${TEST_URL}/signin`)
-        .typeText('input[name="username"]', username)
-        .typeText('input[name="password"]', 'password')
+        .typeText('input[name="email"]', email)
+        .typeText('input[name="password"]', password)
         .click(Selector('input[type="submit"]'));
 
     // sign a user out
@@ -50,4 +61,23 @@ test(`should allow a user to sign in`, async (t) => {
         .expect(Selector('a').withText('Sign Up').exists).ok()
         .expect(Selector('a').withText('Sign In').exists).ok();
 
+});
+
+test(`should validate the password field`, async (t) => {
+    await t
+        .navigateTo(`${TEST_URL}/signin`)
+        .expect(Selector('H1').withText('Signin').exists).ok()
+        .expect(Selector('form').exists).ok()
+        .expect(Selector('input[disabled]').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(2).withText(
+            'Password must be greater than 10 characters.').exists).ok()
+        .typeText('input[name="password"]', password)
+        .expect(Selector('.validation-list').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(2).withText(
+            'Password must be greater than 10 characters.').exists).notOk()
+        .expect(Selector('.validation-list > .success').nth(0).withText(
+            'Password must be greater than 10 characters.').exists).ok()
+        .click(Selector('a').withText('Sign Up'))
+        .expect(Selector('.validation-list > .error').nth(3).withText(
+            'Password must be greater than 10 characters.').exists).ok();
 });

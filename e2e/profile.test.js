@@ -1,9 +1,10 @@
-import { Selector } from 'testcafe';
+import {Selector} from 'testcafe';
 
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
 const email = `${username}@test.com`;
+const password = 'greaterthanten';
 const currentDate = new Date();
 
 const TEST_URL = process.env.TEST_URL;
@@ -27,7 +28,7 @@ test(`should display user info if user is signed in`, async (t) => {
         .navigateTo(`${TEST_URL}/signup`)
         .typeText('input[name="username"]', username)
         .typeText('input[name="email"]', email)
-        .typeText('input[name="password"]', 'password')
+        .typeText('input[name="password"]', password)
         .click(Selector('input[type="submit"]'));
 
     // assert '/profile' is displayed properly

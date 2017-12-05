@@ -6,6 +6,7 @@ const randomstring = require('randomstring');
 
 const username = randomstring.generate();
 const email = `${username}@test.com`;
+const password = 'greaterthanten';
 
 // TODO should throw an error if the username is taken
 // TODO should throw an error if the email is taken
@@ -16,6 +17,19 @@ test(`should display the signup form`, async (t) => {
         .navigateTo(`${TEST_URL}/signup`)
         .expect(Selector('H1').withText('Signup').exists).ok()
         .expect(Selector('form').exists).ok()
+        .expect(Selector('input[name="username"]').exists).ok()
+        .expect(Selector('input[name="email"]').exists).ok()
+        .expect(Selector('input[name="password"]').exists).ok()
+        .expect(Selector('input[disabled]').exists).ok()
+        .expect(Selector('.validation-list').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(0).withText(
+            'Username must be greater than 5 characters.').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(1).withText(
+            'Email must be greater than 5 characters.').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(2).withText(
+            'Email must be a valid email address.').exists).ok()
+        .expect(Selector('.validation-list > .error').nth(3).withText(
+            'Password must be greater than 10 characters.').exists).ok()
 });
 
 test(`should allow a user to sign up`, async (t) => {
@@ -25,7 +39,7 @@ test(`should allow a user to sign up`, async (t) => {
         .navigateTo(`${TEST_URL}/signup`)
         .typeText('input[name="username"]', username)
         .typeText('input[name="email"]', email)
-        .typeText('input[name="password"]', 'password')
+        .typeText('input[name="password"]', password)
         .click(Selector('input[type="submit"]'));
 
     // assert user is redirected to '/'
