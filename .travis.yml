@@ -31,14 +31,16 @@ before_install:
 before_script:
   - export TEST_URL=http://127.0.0.1
   - export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
+  - export SECRET_KEY=secret
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose up --build -d
+  - docker-compose -f docker-compose-staging.yml up -d --build
 
 script:
-  - docker-compose run users-service python manage.py cov
+  - docker-compose -f docker-compose-staging.yml run users-service python manage.py cov
+  - docker-compose -f docker-compose-staging.yml run users-service python manage.py recreate_db
   - testcafe chrome e2e/index.test.js
 
 after_script:
