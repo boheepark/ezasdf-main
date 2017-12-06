@@ -4,5 +4,5 @@
 # node
 node_modules/
 
-# env
+# setup
 asdf.cmd
