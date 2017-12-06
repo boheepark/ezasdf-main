@@ -30,6 +30,8 @@ env:
     - CLIENT_REPO=https://github.com/boheepark/$CLIENT.git
     - SWAGGER=ezasdf-swagger
     - SWAGGER_REPO=https://github.com/boheepark/$SWAGGER.git
+    - NGINX=ezasdf-nginx
+    - NGINX_REPO=https://github.com/boheepark/ezasdf-main.git#master:nginx
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -75,3 +77,7 @@ after_success:
   - docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT
   - docker tag $SWAGGER:$COMMIT $DOCKER_ID/$SWAGGER:$TAG
   - docker push $DOCKER_ID/$SWAGGER
+  # nginx
+  - docker build $NGINX_REPO -t $NGINX:$COMMIT
+  - docker tag $NGINX:$COMMIT $DOCKER_ID/$NGINX:$TAG
+  - docker push $DOCKER_ID/$NGINX
