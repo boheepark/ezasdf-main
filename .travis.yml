@@ -41,7 +41,8 @@ before_script:
 script:
   - docker-compose -f docker-compose-staging.yml run users-service python manage.py cov
   - docker-compose -f docker-compose-staging.yml run users-service python manage.py recreate_db
-  - testcafe chrome e2e/index.test.js
+  - testcafe chrome e2e
+  - testcafe firefox e2e
 
 after_script:
   - docker-compose down
