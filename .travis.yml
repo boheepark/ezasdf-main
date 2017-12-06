@@ -23,7 +23,7 @@ env:
     - DOCKER_COMPOSE_VERSION=1.11.2
     - COMMIT=${TRAVIS_COMMIT::8}
     - USERS=ezasdf-users
-    - USERS_REPO=https://github.com/boheepark$USERS.git
+    - USERS_REPO=https://github.com/boheepark/$USERS.git
     - USERS_DB=ezasdf-users_db
     - USERS_DB_REPO=https://github.com/boheepark/$USERS.git#master:project/db
 
