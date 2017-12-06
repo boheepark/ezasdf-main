@@ -13,4 +13,5 @@ test(`should display the page correctly if a user is not signed in`, async (t) =
         .expect(Selector('a').withText('Sign Out').exists).notOk()
         .expect(Selector('a').withText('Sign Up').exists).ok()
         .expect(Selector('a').withText('Sign In').exists).ok()
+        .expect(Selector('.alert').exists).notOk()
 });

@@ -8,9 +8,9 @@ const username = randomstring.generate();
 const email = `${username}@test.com`;
 const password = 'greaterthanten';
 
-// TODO should throw an error if the username is taken
-// TODO should throw an error if the email is taken
+
 fixture('/signup').page(`${TEST_URL}/signup`);
+
 
 test(`should display the signup form`, async (t) => {
     await t
@@ -31,6 +31,7 @@ test(`should display the signup form`, async (t) => {
         .expect(Selector('.validation-list > .error').nth(3).withText(
             'Password must be greater than 10 characters.').exists).ok()
 });
+
 
 test(`should allow a user to sign up`, async (t) => {
 
@@ -53,5 +54,50 @@ test(`should allow a user to sign up`, async (t) => {
         .expect(Selector('a').withText('Sign Out').exists).ok()
         .expect(Selector('a').withText('Sign Up').exists).notOk()
         .expect(Selector('a').withText('Sign In').exists).notOk()
+});
 
+
+test(`should throw an error if the username is taken`, async (t) => {
+
+    // signup user with duplicate username
+    await t
+        .navigateTo(`${TEST_URL}/signup`)
+        .typeText('input[name="username"]', username)
+        .typeText('input[name="email"]', `${email}unique`)
+        .typeText('input[name="password"]', password)
+        .click(Selector('input[type="submit"]'));
+
+    // assert user signup failed
+    await t
+        .expect(Selector('H1').withText('Signup').exists).ok()
+        .expect(Selector('a').withText('Profile').exists).notOk()
+        .expect(Selector('a').withText('Sign Out').exists).notOk()
+        .expect(Selector('a').withText('Sign Up').exists).ok()
+        .expect(Selector('a').withText('Sign In').exists).ok()
+        .expect(Selector('.alert-success').exists).notOk()
+        .expect(Selector('.alert-danger').withText(
+            'That user already exists.').exists).ok()
+});
+
+
+test(`should throw an error if the email is taken`, async (t) => {
+
+    // signup user with duplicate email
+    await t
+        .navigateTo(`${TEST_URL}/signup`)
+        .typeText('input[name="username"]', username)
+        .typeText('input[name="email"]', `${email}unique`)
+        .typeText('input[name="password"]', password)
+        .click(Selector('input[type="submit"]'));
+
+    // assert user signup failed
+    await t
+        .expect(Selector('H1').withText('Signup').exists).ok()
+        .expect(Selector('a').withText('Profile').exists).notOk()
+        .expect(Selector('a').withText('Sign Out').exists).notOk()
+        .expect(Selector('a').withText('Sign Up').exists).ok()
+        .expect(Selector('a').withText('Sign In').exists).ok()
+        .expect(Selector('.alert-success').exists).notOk()
+        .expect(Selector('.alert-danger').withText(
+            'That user already exists.').exists).ok()
 });
