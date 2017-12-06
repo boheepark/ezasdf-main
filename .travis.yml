@@ -53,7 +53,7 @@ after_script:
   - docker-compose down
 
 after_success:
-  - docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
+  - docker login -u $DOCKER_ID --password-stdin $DOCKER_PASSWORD
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   # users
   - docker build $USERS_REPO -t $USERS:$COMMIT
