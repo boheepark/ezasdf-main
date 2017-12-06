@@ -60,6 +60,6 @@ after_success:
   - docker tag $USERS:$COMMIT $DOCKER_ID/$USERS:$TAG
   - docker push $DOCKER_ID/$USERS
   # users db
-#  - docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT
-#  - docker tag $USERS_DB:$COMMIT $DOCKER_ID/$USERS_DB:$TAG
-#  - docker push $DOCKER_ID/$USERS_DB
+  - docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT
+  - docker tag $USERS_DB:$COMMIT $DOCKER_ID/$USERS_DB:$TAG
+  - docker push $DOCKER_ID/$USERS_DB
