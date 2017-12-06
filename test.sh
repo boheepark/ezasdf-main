@@ -11,7 +11,10 @@ inspect() {
 docker-compose run users-service python manage.py cov
 inspect $? users-service
 
-testcafe chrome,firefox e2e
+testcafe chrome e2e
+inspect $? e2e
+
+testcafe firefox e2e
 inspect $? e2e
 
 if [ -n "${fails}" ];

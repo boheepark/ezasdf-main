@@ -58,3 +58,15 @@ services:
     links:
       - users-service
       - web-service
+
+  swagger:
+    container_name: swagger
+    build:
+      context: https://github.com/boheepark/ezasdf-swagger.git
+    ports:
+      - '8080:8080' # expose ports - HOST:CONTAINER
+    environment:
+      - API_URL=https://raw.githubusercontent.com/boheepark/ezasdf-swagger/master/swagger.json
+    depends_on:
+      users-service:
+        condition: service_started

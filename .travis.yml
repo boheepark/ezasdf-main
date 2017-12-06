@@ -21,6 +21,9 @@ services:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.11.2
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - USERS=ezasdf-users
+    - USERS_REPO=https://github.com/boheepark$USERS.git
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -36,13 +39,21 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f docker-compose-staging.yml up -d --build
+  - docker-compose -f docker-compose-ci.yml up -d --build
 
 script:
-  - docker-compose -f docker-compose-staging.yml run users-service python manage.py cov
-  - docker-compose -f docker-compose-staging.yml run users-service python manage.py recreate_db
+  - docker-compose -f docker-compose-ci.yml run users-service python manage.py cov
+  - docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db
   - testcafe chrome e2e
   - testcafe firefox e2e
 
 after_script:
   - docker-compose down
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_ID -p $DOCKER_PASSWORD
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  # users
+  - docker build $USERS_REPO -t $USERS:$COMMIT
+  - docker tag $USERS:$COMMIT $DOCKER_ID/$USERS:$TAG
+  - docker push $DOCKER_ID/$USERS

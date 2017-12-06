@@ -1,12 +1,13 @@
 version: '2.1'
 
 services:
+
   users-db:
     container_name: users-db
     build:
-      context: ../ezasdf-users/project/db
+      context: https://github.com/boheepark/ezasdf-users.git#master:project/db
     ports:
-      - 5435:5432 # expose ports - HOST:CONTAINER
+      - 5435:5432  # expose ports - HOST:CONTAINER
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -16,36 +17,30 @@ services:
   users-service:
     container_name: users-service
     build:
-      context: ../ezasdf-users
-      dockerfile: Dockerfile-local
-    volumes:
-      - '../ezasdf-users:/usr/src/app'
-    ports:
-      - 5001:5000 # expose ports - HOST:CONTAINER
+      context: https://github.com/boheepark/ezasdf-users.git
+    expose:
+      - '5000'
     environment:
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - APP_SETTINGS=project.config.StagingConfig
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-      - SECRET_KEY=secret
+      - SECRET_KEY=${SECRET_KEY}
     depends_on:
       users-db:
         condition: service_healthy
     links:
       - users-db
+    command: gunicorn -b 0.0.0.0:5000 manage:app
 
   web-service:
     container_name: web-service
     build:
-      context: ../ezasdf-client
-      dockerfile: Dockerfile-local
-    volumes:
-      - '../ezasdf-client:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      context: https://github.com/boheepark/ezasdf-client.git
+      args:
+        - NODE_ENV=development
+        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
     ports:
       - '9000:9000' # expose ports - HOST:CONTAINER
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
     depends_on:
       users-service:
         condition: service_started
@@ -70,7 +65,7 @@ services:
   swagger:
     container_name: swagger
     build:
-      context: ../ezasdf-swagger
+      context: https://github.com/boheepark/ezasdf-swagger.git
     ports:
       - '8080:8080' # expose ports - HOST:CONTAINER
     environment:
