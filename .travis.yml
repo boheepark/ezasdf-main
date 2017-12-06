@@ -50,7 +50,7 @@ script:
   - testcafe firefox e2e
 
 after_script:
-  - docker-compose down
+  - docker-compose -f docker-compose-ci.yml down
 
 after_success:
   - docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
