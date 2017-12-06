@@ -48,7 +48,6 @@ before_script:
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
   - bash ./docker_build.sh
-#  - docker-compose -f docker-compose-ci.yml up -d --build
 
 script:
   - docker-compose -f docker-compose-ci.yml run users-service python manage.py cov
