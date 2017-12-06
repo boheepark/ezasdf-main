@@ -47,7 +47,8 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f docker-compose-ci.yml up -d --build
+  - bash ./docker_build.sh
+#  - docker-compose -f docker-compose-ci.yml up -d --build
 
 script:
   - docker-compose -f docker-compose-ci.yml run users-service python manage.py cov
