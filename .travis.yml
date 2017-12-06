@@ -24,6 +24,8 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
     - USERS=ezasdf-users
     - USERS_REPO=https://github.com/boheepark$USERS.git
+    - USERS_DB=ezasdf-users_db
+    - USERS_DB_REPO=https://github.com/boheepark/$USERS.git#master:project/db
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -51,9 +53,13 @@ after_script:
   - docker-compose down
 
 after_success:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_ID -p $DOCKER_PASSWORD
+  - docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   # users
   - docker build $USERS_REPO -t $USERS:$COMMIT
   - docker tag $USERS:$COMMIT $DOCKER_ID/$USERS:$TAG
   - docker push $DOCKER_ID/$USERS
+  # users db
+#  - docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT
+#  - docker tag $USERS_DB:$COMMIT $DOCKER_ID/$USERS_DB:$TAG
+#  - docker push $DOCKER_ID/$USERS_DB
