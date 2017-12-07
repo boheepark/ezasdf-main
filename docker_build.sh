@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-if [ "$TRAVIS_BRANCH" == "dev" ];
+if [ "$TRAVIS_BRANCH" == "development" ];
 then
     docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
     docker pull $DOCKER_ID/$USERS
