@@ -33,7 +33,6 @@ cache:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.11.2
-    - MOZ_HEADLESS=1
     - COMMIT=${TRAVIS_COMMIT::8}
     - USERS=ezasdf-users
     - USERS_REPO=https://github.com/boheepark/$USERS.git
@@ -71,6 +70,7 @@ script:
   - docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db
   - testcafe chrome e2e
   - testcafe firefox e2e
+  - testcafe ie e2e
 
 
 after_success:
