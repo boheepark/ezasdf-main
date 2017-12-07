@@ -6,7 +6,7 @@ then
 
     if [ "$TRAVIS_BRANCH" == "development" ];
     then
-        docker login -e $DOCKER_ID -p $DOCKER_PASSWORD
+        docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
         export TAG=$TRAVIS_BRANCH
         export REPO=$DOCKER_ID
     fi
