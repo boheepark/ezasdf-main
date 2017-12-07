@@ -27,9 +27,8 @@ cache:
   bundler: true
   timeout: 600000
   directories:
-    - $HOME/.ccache
-    - $HOME/.cache/pip
-    - $HOME/.ros/data
+    # TODO check if node_modules is cached
+    - node_modules
     - $HOME/docker
 
 
@@ -84,9 +83,9 @@ script:
   - testcafe firefox e2e
 
 
-after_script:
-  - docker-compose -f docker-compose-ci.yml down
-
-
 after_success:
   - bash ./docker_push.sh
+
+
+after_script:
+  - docker-compose -f docker-compose-ci.yml down
