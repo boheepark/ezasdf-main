@@ -25,6 +25,7 @@ services:
 
 cache:
   bundler: true
+  timeout: 10000
   directories:
     - $HOME/.ccache
     - $HOME/.cache/pip
