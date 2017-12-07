@@ -61,4 +61,5 @@ then
         docker tag $NGINX:$COMMIT $REPO/$NGINX:$TAG
         docker push $REPO/$NGINX:$TAG
     fi
+
 fi
