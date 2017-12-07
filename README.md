@@ -1,7 +1,5 @@
 # ezasdf-main
 
-feature test
-
 useful commands
 
 Start
