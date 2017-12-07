@@ -73,6 +73,7 @@ script:
 
 after_success:
   - bash ./docker_push.sh
+  - bash ./docker_deploy.sh
 
 
 after_script:
