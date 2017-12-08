@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-if [ -z "$TRAVIS_PULL_REEQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ];
+if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ];
 then
 
     if [ "$TRAVIS_BRANCH" == "staging" ];
