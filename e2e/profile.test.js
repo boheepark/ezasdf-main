@@ -13,7 +13,7 @@ const TEST_URL = process.env.TEST_URL;
 fixture('/profile').page(`${TEST_URL}/profile`);
 
 
-test(`should display the page if user is not signed in`, async (t) => {
+test(`Should not display profile if the user is not signed in.`, async (t) => {
     await t
         .navigateTo(`${TEST_URL}/profile`)
         .expect(Selector('p').withText('You must be signed in to view this page.').exists).ok()
@@ -24,7 +24,7 @@ test(`should display the page if user is not signed in`, async (t) => {
 });
 
 
-test(`should display user info if user is signed in`, async (t) => {
+test(`Should display profile if the user is signed in.`, async (t) => {
 
     // signup user
     await t
