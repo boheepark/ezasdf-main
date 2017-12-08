@@ -27,7 +27,6 @@ cache:
   directories:
     # TODO check if node_modules is cached
     - node_modules
-    - $HOME/docker
 
 
 env:
