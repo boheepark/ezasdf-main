@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import {Selector} from 'testcafe';
 
 const TEST_URL = process.env.TEST_URL;
 
