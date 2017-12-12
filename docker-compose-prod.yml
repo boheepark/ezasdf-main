@@ -8,7 +8,7 @@ services:
       context: ../ezasdf-users/project/db
       dockerfile: Dockerfile
     ports:
-      - 5435:5432 # expose ports - HOST:CONTAINER
+      - 5435:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

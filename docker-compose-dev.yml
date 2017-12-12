@@ -32,3 +32,14 @@ services:
       - users-db
     links:
       - users-db
+
+  nginx:
+    container_name: nginx
+    build: ./nginx/
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - users-service
+    links:
+      - users-service
