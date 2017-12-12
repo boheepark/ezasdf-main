@@ -65,8 +65,8 @@ before_script:
 
 
 script:
-  - docker-compose -f docker-compose-ci.yml run users-service python manage.py cov
-  - docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db
+  - docker-compose -f docker-compose-ci.yml run users-service flask test --cov
+  - docker-compose -f docker-compose-ci.yml run users-service flask recreate_db
   - testcafe chrome e2e
 
 
