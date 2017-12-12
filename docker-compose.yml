@@ -6,6 +6,7 @@ services:
     container_name: users-db
     build:
       context: ../ezasdf-users/project/db
+      dockerfile: Dockerfile
     ports:
       - 5435:5432 # expose ports - HOST:CONTAINER
     environment:
