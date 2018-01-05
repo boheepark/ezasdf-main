@@ -1,17 +1,17 @@
-version: '2.1'
+version: '3.3'
 
 services:
+
   users-db:
     container_name: users-db
     build:
       context: ../ezasdf-users/project/db
+      dockerfile: Dockerfile
     ports:
       - 5435:5432 # expose ports - HOST:CONTAINER
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    healthcheck:
-      test: exit 0
 
   users-service:
     container_name: users-service
@@ -29,8 +29,7 @@ services:
       - SECRET_KEY=secret
       - FLASK_APP=ezasdf_users.py
     depends_on:
-      users-db:
-        condition: service_healthy
+      - users-db
     links:
       - users-db
 
@@ -48,8 +47,7 @@ services:
       - NODE_ENV=development
       - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
     depends_on:
-      users-service:
-        condition: service_started
+      - users-service
     links:
       - users-service
 
@@ -60,10 +58,8 @@ services:
     ports:
       - 80:80
     depends_on:
-      users-service:
-        condition: service_started
-      web-service:
-        condition: service_started
+      - users-service
+      - web-service
     links:
       - users-service
       - web-service
@@ -77,5 +73,4 @@ services:
     environment:
       - API_URL=https://raw.githubusercontent.com/boheepark/ezasdf-swagger/master/swagger.json
     depends_on:
-      users-service:
-        condition: service_started
+      - users-service

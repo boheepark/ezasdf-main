@@ -31,7 +31,7 @@ cache:
 
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.11.2
+    - DOCKER_COMPOSE_VERSION=1.17.1
     - COMMIT=${TRAVIS_COMMIT::8}
     - USERS=ezasdf-users
     - USERS_REPO=https://github.com/boheepark/$USERS.git
@@ -65,8 +65,9 @@ before_script:
 
 
 script:
-  - docker-compose -f docker-compose-ci.yml run users-service python manage.py cov
-  - docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db
+  - docker-compose -f docker-compose-ci.yml run users-service flask recreate_db
+  - docker-compose -f docker-compose-ci.yml run users-service flask seed_db
+  - docker-compose -f docker-compose-ci.yml run users-service flask test --cov
   - testcafe chrome e2e
 
 
@@ -76,4 +77,4 @@ after_success:
 
 
 after_script:
-  - docker-compose -f docker-compose-ci.yml down
+  - docker-compose -f docker-compose-dev.yml down
