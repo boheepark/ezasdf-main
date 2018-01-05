@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.3'
 
 services:
 
@@ -11,8 +11,6 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    healthcheck:
-      test: exit 0
 
   users-service:
     container_name: users-service
@@ -26,8 +24,7 @@ services:
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - SECRET_KEY=${SECRET_KEY}
     depends_on:
-      users-db:
-        condition: service_healthy
+      - users-db
     links:
       - users-db
     command: gunicorn -b 0.0.0.0:5000 manage:app
@@ -42,8 +39,7 @@ services:
     ports:
       - '9000:9000' # expose ports - HOST:CONTAINER
     depends_on:
-      users-service:
-        condition: service_started
+      - users-service
     links:
       - users-service
 
@@ -54,10 +50,8 @@ services:
     ports:
       - 80:80
     depends_on:
-      users-service:
-        condition: service_started
-      web-service:
-        condition: service_started
+      - users-service
+      - web-service
     links:
       - users-service
       - web-service
@@ -71,5 +65,4 @@ services:
     environment:
       - API_URL=https://raw.githubusercontent.com/boheepark/ezasdf-swagger/master/swagger.json
     depends_on:
-      users-service:
-        condition: service_started
+      - users-service

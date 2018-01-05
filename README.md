@@ -17,14 +17,15 @@ Stop
     docker-compose stop
     docker-compose down
     docker rmi $(docker images -q)
-    
+
 Users DB
 
     docker-compose up -d --build users-db
     docker exec -it users-db psql -U postgres -W
-    
+
 
 [![Build Status](https://travis-ci.org/boheepark/ezasdf-main.svg?branch=master)](https://travis-ci.org/boheepark/ezasdf-main)
+
 <a href="https://github.com/DevExpress/testcafe">
     <img alt="Tested with TestCafe" src="https://img.shields.io/badge/tested%20with-TestCafe-2fa4cf.svg">
 </a>
