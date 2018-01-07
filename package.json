@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/boheepark/ezasdf-main.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Bohee Park <boheepark91@gmail.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/boheepark/ezasdf-main/issues"
   },
